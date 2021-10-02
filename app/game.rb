@@ -3,6 +3,7 @@ class Game
 
     def tick
         inputs
+        logic
         renders
     end
 
@@ -19,7 +20,7 @@ class Game
             h: 64,
             path: 'sprites/square/violet.png',
             velocity: 0, 
-            direction: 0
+            angle: 0
         }
     end
 
@@ -36,15 +37,30 @@ class Game
 
     def inputs
         if(@inputs.keyboard.w)
-            if @player_machine[:velocity] < 20
-                @player_machine[:velocity] += 1
+            if @player_machine[:velocity] < 5
+                @player_machine[:velocity] += 0.1
             end
+        end
+        if(@inputs.keyboard.s)
+            if @player_machine[:velocity] > -1
+                @player_machine[:velocity] -= 0.1
+            end
+        end
+        if(@inputs.keyboard.space)
+            @player_machine[:velocity] = 0
+        end
+        if(@inputs.keyboard.a)
+            @player_machine[:angle] += 2.0 
+        end
+        if(@inputs.keyboard.d)
+            @player_machine[:angle] -= 2.0 
         end
     end
 
 
     def logic
-
+        @player_machine[:x] += @player_machine[:velocity] * Math.cos((Math::PI / 180) * @player_machine[:angle])
+        @player_machine[:y] += @player_machine[:velocity] * Math.sin((Math::PI / 180) * @player_machine[:angle])
     end
 
 
